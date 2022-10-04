@@ -35,8 +35,8 @@ A good `Makefile` autocompletion will make things even easier.
 |       `kill` | `timeout=SEC`                                                                                                                | Forcefully shuts down the cluster (i.e. `SIGKILL`)                                           |
 |       `logs` | `?service=(zookeeper,kafka-0[1-3])`                                                                                          | Tail-follow logs of the running services (default: all services).                            |
 |     `status` |                                                                                                                              | Docker status of the running services                                                        |
-|    `consume` | `topic=TOPIC_STR`, `?offset=(beginning,end,stored,OFFSET_INT,-OFFSET_INT,s@TIMESTAMP_MS,e@TIMESTAMP_MS)`, `?group=GROUP_STR` | Consume from a topic, from a given offset and using a given `group.id`; use `CTRL+C` to stop |
-|    `produce` | `topic=TOPIC_STR`, `?key=KEY_STR`, `?value=VALUE_STR`                                                                        | Produce to a topic, using a given key/value pair                                             |
+|    `consume` | `topic=TOPIC`,<br/> `?offset=(beginning, end, stored, OFFSET, -OFFSET, s@TS, e@TS)`,<br/> `?group=GROUP` | Consume from a topic, from a given offset and using a given `group.id`; use `CTRL+C` to stop |
+|    `produce` | `topic=TOPIC`, `?key=KEY`, `?value=VALUE`                                                                        | Produce to a topic, using a given key/value pair                                             |
 | `ls-brokers` |                                                                                                                              | Lists cluster brokers                                                                        |
 |  `ls-topics` |                                                                                                                              | Lists clusters topics                                                                        |
 
@@ -46,12 +46,12 @@ A good `Makefile` autocompletion will make things even easier.
 * `SEC`: amount of seconds
 * `group` defaults to `kafkesc-devcluster-group-id`
 * `offset` defaults to `end` - see [`kcat`](https://github.com/edenhill/kcat) for more details
-  * `TIMESTAMP_MS`: timestamp in milliseconds
-  * `OFFSET_INT`: integer of the _absolute_ offset of a record
-  * `-OFFSET_INT`: integer of the _relative_ offset of a record from the end
+  * `s@TS`: timestamp in milliseconds to start at
+  * `e@TS`: timestamp in milliseconds to end at (not included)
+  * `OFFSET`: integer of the _absolute_ offset of a record
+  * `-OFFSET`: integer of the _relative_ offset of a record from the end
 * `key` defaults to a random alphanumeric string of 12 characters (ex. `K-a21d38311c`)
 * `value` defaults to a random alphanumeric string of 22 characters (ex. `V-6bbeba0cf4d0d5c2de36`)
-* `*_STR`: argument value is a string
 
 ## Connecting
 
