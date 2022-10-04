@@ -97,4 +97,4 @@ TODO
 
 ## License
 
-TODO
+[Apache License 2.0](./LICENSE)
