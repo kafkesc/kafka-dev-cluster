@@ -1,0 +1,79 @@
+## DESCRIPTION
+#
+# A Docker Compose to spin up a Kafka Development Cluster.
+# This is NOT what you should use in production.
+# The docker images used here are provided by Confluent Platform,
+# and listed here: https://hub.docker.com/u/confluentinc/.
+#
+## PARAMETERS
+#
+# - Name: CP_VER
+#   Description: Confluent Platform version.
+#   Default: 7.2.2
+#   Versions: https://docs.confluent.io/platform/current/installation/versions-interoperability.html
+
+version: '3.8'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:${CP_VER}
+    ports:
+      - '2181:2181'
+      - '2888:2888'
+      - '3888:3888'
+    healthcheck:
+      test: echo stat | nc localhost 2181
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    environment:
+      - ZOOKEEPER_SERVER_ID=1
+      - ZOOKEEPER_CLIENT_PORT=2181
+      - ZOOKEEPER_TICK_TIME=2000
+      - ZOOKEEPER_INIT_LIMIT=5
+      - ZOOKEEPER_SYNC_LIMIT=2
+      - ZOOKEEPER_SERVERS=zookeeper:2888:3888
+  kafka-01:
+    image: confluentinc/cp-kafka:${CP_VER}
+    depends_on:
+      - zookeeper
+    ports:
+      - '9091:9091'
+      - '19091:19091'
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-01:9091,PLAINTEXT_HOST://localhost:19091
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9091,PLAINTEXT_HOST://0.0.0.0:19091
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ZOOKEEPER=zookeeper:2181
+  kafka-02: 
+    image: confluentinc/cp-kafka:${CP_VER}
+    depends_on:
+      - zookeeper
+    ports:
+      - '9092:9092'
+      - '19092:19092'
+    environment:
+      - KAFKA_BROKER_ID=2
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-02:9092,PLAINTEXT_HOST://localhost:19092
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:19092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ZOOKEEPER=zookeeper:2181
+  kafka-03:
+    image: confluentinc/cp-kafka:${CP_VER}
+    depends_on:
+      - zookeeper
+    ports:
+      - '9093:9093'
+      - '19093:19093'
+    environment:
+      - KAFKA_BROKER_ID=3
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-03:9093,PLAINTEXT_HOST://localhost:19093
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9093,PLAINTEXT_HOST://0.0.0.0:19093
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ZOOKEEPER=zookeeper:2181
