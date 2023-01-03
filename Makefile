@@ -48,9 +48,8 @@ kill:
 logs:
 	$(DKR_CMD) logs -f $(service)
 
-status:
-	docker ps --filter name=kafka-0
-	docker ps --filter name=zookeeper
+ps:
+	$(DKR_CMD) ps
 
 # ------------------------------------------------ Kafka basic commands targets
 consume:
@@ -59,9 +58,3 @@ consume:
 produce:
 	echo "$(key):$(value)" | kcat -b $(BOOTSTRAP_BROKERS) -P -K ':' -t $(topic)
 
-# ------------------------------------------------------ Kafka metadata targets
-ls-brokers:
-	kcat -b $(BOOTSTRAP_BROKERS) -L -J | jq .brokers
-
-ls-topics:
-	kcat -b $(BOOTSTRAP_BROKERS) -L -J | jq '.topics[] | { topic: .topic, partitions: .partitions | length }'
