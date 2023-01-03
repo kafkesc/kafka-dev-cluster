@@ -99,6 +99,12 @@ The containers launched by the docker compose are reachable from your `localhost
 The Kafka brokers will communicate with each other using the `kafka-0[1-3]:909[1-3]`.
 Instead, to communicate with ZooKeeper, brokers will use `zookeeper:2181`.
 
+### Running commands _inside_ a container
+
+This is probably obvious from section above, but it's good to explicitly call out:
+when `docker exec`-uting from inside one of the docker containers, it's possible to
+address the sibling containers using the _Service_ name as target hostname. 
+
 ## Storage
 
 TODO
