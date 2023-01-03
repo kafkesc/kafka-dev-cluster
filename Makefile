@@ -35,7 +35,7 @@ offset := $(DEFAULT_OFFSET)
 key = $(DEFAULT_KEY)
 value = $(DEFAULT_VAL)
 partitions = $(DEFAULT_PARTITIONS)
-replication_factor = $(DEFAULT_REPLICATION_FACTOR)
+repfac = $(DEFAULT_REPLICATION_FACTOR)
 
 .PHONY: init start stop restart kill logs ps consume produce topic.create topic.read topic.delete meta.brokers meta.topics meta.groups
 
