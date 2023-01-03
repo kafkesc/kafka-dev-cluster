@@ -26,19 +26,23 @@ do basic operations against Kafka topics.
 
 A good `Makefile` autocompletion will make things even easier.
 
-|      Command | Arguments                                                                                                                    | Description                                                                                  |
-|-------------:|------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
-|       `init` |                                                                                                                              | Prepares localhost to launch the cluster                                                     |
-|      `start` | `timeout=SEC`                                                                                                                | Launches the cluster                                                                         |
-|       `stop` | `timeout=SEC`                                                                                                                | Shuts down the cluster                                                                       |
-|    `restart` | `timeout=SEC`                                                                                                                | Restarts the cluster                                                                         |
-|       `kill` | `timeout=SEC`                                                                                                                | Forcefully shuts down the cluster (i.e. `SIGKILL`)                                           |
-|       `logs` | `?service=(zookeeper,kafka-0[1-3])`                                                                                          | Tail-follow logs of the running services (default: all services).                            |
-|     `status` |                                                                                                                              | Docker status of the running services                                                        |
-|    `consume` | `topic=TOPIC`,<br/> `?offset=(beginning, end, stored, OFFSET, -OFFSET, s@TS, e@TS)`,<br/> `?group=GROUP` | Consume from a topic, from a given offset and using a given `group.id`; use `CTRL+C` to stop |
-|    `produce` | `topic=TOPIC`, `?key=KEY`, `?value=VALUE`                                                                        | Produce to a topic, using a given key/value pair                                             |
-| `ls-brokers` |                                                                                                                              | Lists cluster brokers                                                                        |
-|  `ls-topics` |                                                                                                                              | Lists clusters topics                                                                        |
+|        Command | Arguments                                                                                                | Description                                                                                  |
+|---------------:|----------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+|         `init` |                                                                                                          | Prepares localhost to launch the cluster                                                     |
+|        `start` | `timeout=SEC`                                                                                            | Launches the cluster                                                                         |
+|         `stop` | `timeout=SEC`                                                                                            | Shuts down the cluster                                                                       |
+|      `restart` | `timeout=SEC`                                                                                            | Restarts the cluster                                                                         |
+|         `kill` | `timeout=SEC`                                                                                            | Forcefully shuts down the cluster (i.e. `SIGKILL`)                                           |
+|         `logs` | `?service=(zookeeper,kafka-0[1-3])`                                                                      | Tail-follow logs of the running services (default: all services).                            |
+|           `ps` |                                                                                                          | Docker status of the running services                                                        |
+|      `consume` | `topic=TOPIC`,<br/> `?offset=(beginning, end, stored, OFFSET, -OFFSET, s@TS, e@TS)`,<br/> `?group=GROUP` | Consume from a topic, from a given offset and using a given `group.id`; use `CTRL+C` to stop |
+|      `produce` | `topic=TOPIC`,<br/> `?key=KEY`,<br/> `?value=VALUE`                                                      | Produce to a topic, using a given key/value pair                                             |
+| `topic.create` | `topic=TOPIC`,<br/> `?partitions=PC`,<br/> `?repfac=RF`                                                  | Create a new topic                                                                           |
+|   `topic.read` | `topic=TOPIC`                                                                                            | Describe a topic                                                                             |
+| `topic.delete` | `topic=TOPIC`                                                                                            | Delete a topic                                                                               |
+| `meta.brokers` |                                                                                                          | Lists cluster brokers                                                                        |
+|  `meta.topics` |                                                                                                          | Lists clusters topics                                                                        |
+|  `meta.groups` |                                                                                                          | Lists clusters consumer groups                                                               |
 
 **NOTE:**
 
@@ -52,6 +56,10 @@ A good `Makefile` autocompletion will make things even easier.
   * `-OFFSET`: integer of the _relative_ offset of a record from the end
 * `key` defaults to a random alphanumeric string of 12 characters (ex. `K-a21d38311c`)
 * `value` defaults to a random alphanumeric string of 22 characters (ex. `V-6bbeba0cf4d0d5c2de36`)
+* `partitions` defaults to `3`
+  * `PC`: partitions count for the `topic`
+* `repfac` defaults to `3`
+  * `RF`: replication factor for the `topic`
 
 ## Connecting
 
