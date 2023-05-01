@@ -4,18 +4,12 @@
 # This is NOT what you should use in production.
 # The docker images used here are provided by Confluent Platform,
 # and listed here: https://hub.docker.com/u/confluentinc/.
-#
-## PARAMETERS
-#
-# - Name: CP_VER
-#   Description: Confluent Platform version.
-#   Default: 7.2.2
-#   Versions: https://docs.confluent.io/platform/current/installation/versions-interoperability.html
 
 version: '3.8'
 services:
   zookeeper:
-    image: confluentinc/cp-zookeeper:${CP_VER}
+    container_name: zookeeper
+    image: confluentinc/cp-zookeeper:${CP_ZOOKEEPER_VER}
     ports:
       - '2181:2181'
       - '2888:2888'
@@ -33,7 +27,8 @@ services:
       - ZOOKEEPER_SYNC_LIMIT=2
       - ZOOKEEPER_SERVERS=zookeeper:2888:3888
   kafka-01:
-    image: confluentinc/cp-kafka:${CP_VER}
+    container_name: kafka-01
+    image: confluentinc/cp-kafka:${CP_KAFKA_VER}
     depends_on:
       - zookeeper
     ports:
@@ -47,8 +42,9 @@ services:
       - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - ZOOKEEPER=zookeeper:2181
-  kafka-02: 
-    image: confluentinc/cp-kafka:${CP_VER}
+  kafka-02:
+    container_name: kafka-02
+    image: confluentinc/cp-kafka:${CP_KAFKA_VER}
     depends_on:
       - zookeeper
     ports:
@@ -63,7 +59,8 @@ services:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - ZOOKEEPER=zookeeper:2181
   kafka-03:
-    image: confluentinc/cp-kafka:${CP_VER}
+    container_name: kafka-03
+    image: confluentinc/cp-kafka:${CP_KAFKA_VER}
     depends_on:
       - zookeeper
     ports:
@@ -77,3 +74,8 @@ services:
       - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - ZOOKEEPER=zookeeper:2181
+
+networks:
+  default:
+    name: ${NETWORK_NAME}
+    driver: bridge
