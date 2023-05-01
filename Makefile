@@ -5,6 +5,11 @@ PRJ_NAME_INFRA := kafkesc-devcluster-infra
 DKR_COMP_INFRA := docker-compose-infra.yml
 DKR_CMD_INFRA := docker-compose --file $(DKR_COMP_INFRA) --project-name $(PRJ_NAME_INFRA)
 
+# Docker (Compose) configuration: Workload
+PRJ_NAME_WORK := kafkesc-devcluster-work
+DKR_COMP_WORK := docker-compose-work.yml
+DKR_CMD_WORK := docker-compose --file $(DKR_COMP_WORK) --project-name $(PRJ_NAME_WORK)
+
 # Kafka configuration
 BOOTSTRAP_BROKERS := localhost:19091,localhost:19092,localhost:19093
 DEFAULT_GROUP := $(PRJ_NAME_INFRA)-group-id
@@ -108,3 +113,32 @@ meta.groups:
 		--bootstrap-server $(DKR_CMD_SERVICE_BOOTSTRAP_BROKERS) \
 		--describe \
 		--all-groups
+
+# ------------------------------------------------------------ Workload targets
+workload.setup: start
+	@echo === Creating Workload Topics ===
+	$(MAKE) topic.create topic=workload01 partitions=15
+	$(MAKE) topic.create topic=workload02 partitions=30
+	$(MAKE) topic.create topic=workload03 partitions=36
+	@sleep 3
+	$(MAKE) meta.topics
+
+workload.start: workload.setup
+	@echo === Starting Workload ===
+	$(DKR_CMD_WORK) up --detach --timeout $(timeout)
+
+workload.stop:
+	@echo === Stopping Workload ===
+	$(DKR_CMD_WORK) down --remove-orphans --timeout $(timeout)
+
+workload.restart:
+	$(DKR_CMD_WORK) restart --timeout $(timeout)
+
+workload.kill:
+	$(DKR_CMD_WORK) kill --remove-orphans
+
+workload.ps:
+	$(DKR_CMD_WORK) ps
+
+workload.logs:
+	$(DKR_CMD_WORK) logs -f $(service)

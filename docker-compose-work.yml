@@ -1,0 +1,144 @@
+---
+version: "3.8"
+services:
+  # ------------------------------------------------ PRODUCERS
+  prod-01:
+    container_name: prod-01
+    image: kafkesc/ksunami:${KSUNAMI_VER}
+    command:
+      - --brokers=${BROKERS}
+      - --topic=workload01
+      - --partitioner=murmur2_random
+      - --min-sec=3540
+      - --min=10
+      - --max-sec=60
+      - --max=1000
+      - --up=spike-in
+      - --down=ease-out
+      - --key=int:10-1000
+      - --payload=alpha:100
+      - -vv
+  prod-02:
+    container_name: prod-02
+    image: kafkesc/ksunami:${KSUNAMI_VER}
+    command:
+      - --brokers=${BROKERS}
+      - --topic=workload02
+      - --partitioner=random
+      - --min-sec=300
+      - --min=0
+      - --max-sec=30
+      - --max=10000
+      - --up=spike-out
+      - --down=linear
+      - --key=bytes:15
+      - --payload=bytes:50
+      - -vv
+  prod-03:
+    container_name: prod-03
+    image: kafkesc/ksunami:${KSUNAMI_VER}
+    command:
+      - --brokers=${BROKERS}
+      - --topic=workload03
+      - --partitioner=fnv1a_random
+      - --min-sec=60
+      - --min=50
+      - --max-sec=60
+      - --max=60
+      - --up=ease-in-out
+      - --down=ease-in-out
+      - --key=alpha:0
+      - --payload=alpha:20
+      - -vv
+  # ------------------------------------------------ CONSUMERS
+
+  # Group "cons-01" contains 2 members: "cons-01_a" and "cons_01_b"
+  cons-01a:
+    container_name: cons-01a
+    image: confluentinc/cp-kafkacat:${CP_KCAT_VER}
+    command:
+      - kafkacat
+      - -b
+      - ${BROKERS}
+      - -C
+      - -G
+      - cons-01
+      - workload01
+      - -f
+      - ${KCAT_REC_FMT}
+  cons-01b:
+    container_name: cons-01b
+    image: confluentinc/cp-kafkacat:${CP_KCAT_VER}
+    command:
+      - kafkacat
+      - -b
+      - ${BROKERS}
+      - -C
+      - -G
+      - cons-01
+      - workload01
+      - -f
+      - ${KCAT_REC_FMT}
+
+  # Group "cons-02" contains only 1 member
+  cons-02:
+    container_name: cons-02
+    image: confluentinc/cp-kafkacat:${CP_KCAT_VER}
+    command:
+      - kafkacat
+      - -b
+      - ${BROKERS}
+      - -C
+      - -G
+      - cons-02
+      - workload02
+      - -f
+      - ${KCAT_REC_FMT}
+
+  # Group "cons-03" contains 3 members: "cons-03_a", "cons-03_b" and "cons-03_c"
+  cons-03a:
+    container_name: cons-03a
+    image: confluentinc/cp-kafkacat:${CP_KCAT_VER}
+    command:
+      - kafkacat
+      - -b
+      - ${BROKERS}
+      - -C
+      - -G
+      - cons-03
+      - workload03
+      - -f
+      - ${KCAT_REC_FMT}
+  cons-03b:
+    container_name: cons-03b
+    image: confluentinc/cp-kafkacat:${CP_KCAT_VER}
+    command:
+      - kafkacat
+      - -b
+      - ${BROKERS}
+      - -C
+      - -G
+      - cons-03
+      - workload03
+      - -f
+      - ${KCAT_REC_FMT}
+  cons-03c:
+    container_name: cons-03c
+    image: confluentinc/cp-kafkacat:${CP_KCAT_VER}
+    command:
+      - kafkacat
+      - -b
+      - ${BROKERS}
+      - -C
+      - -G
+      - cons-03
+      - workload03
+      - -f
+      - ${KCAT_REC_FMT}
+
+networks:
+  default:
+    # Attach to the (assumed existing) bridge network, created by `docker-compose-infra.yml`
+    external: true
+    name: ${NETWORK_NAME}
+    driver: bridge
