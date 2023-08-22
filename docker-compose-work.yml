@@ -47,7 +47,7 @@ services:
       - --max=60
       - --up=ease-in-out
       - --down=ease-in-out
-      - --key=alpha:0
+      - --key=alpha:30
       - --payload=alpha:20
       - -vv
   # ------------------------------------------------ CONSUMERS
