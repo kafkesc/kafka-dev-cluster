@@ -1,4 +1,4 @@
-# Kafkesc: Kafka Development Cluster
+# Kafkesc's `kafka-dev-cluster`: Kafka Development Cluster
 
 A **_battery-included_** BUT **_development-only_** pairing of `Makefile` & `docker-compose.yml`,
 designed to quickly spin-up a [Kafka](https://kafka.apache.org/) cluster for development purposes.
@@ -9,7 +9,7 @@ The `docker-compose-infra.yml` launches:
 * a ZooKeeper ensemble, made of a single server
 
 This should be plenty for local development of services and tools, designed
-to interact and operate against Kafka.
+to interact and operate against Kafka. Even when you are [offline](#using-offline).
 
 For the `docker-compose-work.yml`, refer to the [Workload Generation](#workload-generation) section below.
 
@@ -37,6 +37,7 @@ A good `Makefile` autocompletion will make things even easier.
 |             `kill` | `timeout=SEC`                                                                                            | Forcefully shuts down the cluster (i.e. `SIGKILL`)                                           |
 |             `logs` | `?service=(zookeeper,kafka-0[1-3])`                                                                      | Tail-follow logs of the running services (default: all services).                            |
 |               `ps` |                                                                                                          | Docker status of the running services                                                        |
+|             `pull` |                                                                                                          | Pull all the Docker images necessary to run the cluster                                      |
 |          `consume` | `topic=TOPIC`,<br/> `?offset=(beginning, end, stored, OFFSET, -OFFSET, s@TS, e@TS)`,<br/> `?group=GROUP` | Consume from a topic, from a given offset and using a given `group.id`; use `CTRL+C` to stop |
 |          `produce` | `topic=TOPIC`,<br/> `?key=KEY`,<br/> `?value=VALUE`                                                      | Produce to a topic, using a given key/value pair                                             |
 |     `topic.create` | `topic=TOPIC`,<br/> `?partitions=PC`,<br/> `?repfac=RF`                                                  | Create a new topic                                                                           |
@@ -52,6 +53,7 @@ A good `Makefile` autocompletion will make things even easier.
 |    `workload.kill` |                                                                                                          | Forcefully shuts down `docker-compose-work.yml` (i.e. `SIGKILL`)                             | 
 |      `workload.ps` |                                                                                                          | Docker status of the running services                                                        |
 |    `workload.logs` | `?service=(prod-0[1-3],cons-0[1-3][abc]?)`                                                               | Tail-follow logs of the running services (default: all services).                            |
+|    `workload.pull` |                                                                                                          | Pull all the Docker images necessary to run `docker-compose-work.yml`                        |
 
 **NOTE:**
 
@@ -152,6 +154,14 @@ Please see [docker-compose-workload.yml](./docker-compose-work.yml) for details.
 At current stage, at shutdown all data is lost.
 
 Maybe this is a chance for _Your_ contribution? :wink: :innocent:
+
+## Using offline
+
+It's possible that you might need to use `kafka-dev-cluster` while offline, or when you simply don't
+have enough bandwidth to pull hundreds of megabytes of docker images.
+
+For those cases, just use the `pull` commands provided to pre-fetch all the docker images, before
+you get going.
 
 ## License
 

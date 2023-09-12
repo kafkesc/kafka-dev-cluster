@@ -43,7 +43,7 @@ value = $(DEFAULT_VAL)
 partitions = $(DEFAULT_PARTITIONS)
 repfac = $(DEFAULT_REPLICATION_FACTOR)
 
-.PHONY: init start stop restart kill logs ps consume produce topic.create topic.read topic.delete meta.brokers meta.topics meta.groups workload.setup workload.start workload.stop workload.restart workload.kill workload.ps workload.logs
+.PHONY: init start stop restart kill logs ps consume produce pull topic.create topic.read topic.delete meta.brokers meta.topics meta.groups workload.setup workload.start workload.stop workload.restart workload.kill workload.ps workload.logs workload.pull
 
 # --------------------------------------------------- Cluster lifecycle targets
 init:
@@ -69,6 +69,9 @@ logs:
 
 ps:
 	$(DKR_CMD_INFRA) ps
+
+pull:
+	$(DKR_CMD_INFRA) pull
 
 # ------------------------------------------------------ Basic commands targets
 consume:
@@ -145,3 +148,6 @@ workload.ps:
 
 workload.logs:
 	$(DKR_CMD_WORK) logs -f $(service)
+
+workload.pull:
+	$(DKR_CMD_WORK) pull
