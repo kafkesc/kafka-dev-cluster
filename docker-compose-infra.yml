@@ -31,6 +31,25 @@ services:
       - ZOOKEEPER_INIT_LIMIT=5
       - ZOOKEEPER_SYNC_LIMIT=2
       - ZOOKEEPER_SERVERS=zookeeper:2888:3888
+
+  kafka-01-jmx:
+    container_name: kafka-01-jmx
+    image: ${JMX_EXPORTER_IMG}:${JMX_EXPORTER_VER}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 128M
+    depends_on:
+      - kafka-01
+    ports:
+      - "5551:5556"
+    volumes:
+      - './etc/jmx_exporter/kafka-01-jmx.yml:/etc/jmx_exporter/config.yml'
+    command:
+      - "5556"
+      - "/etc/jmx_exporter/config.yml"
+
   kafka-01:
     container_name: kafka-01
     image: ${CP_KAFKA_IMG}:${CP_KAFKA_VER}
@@ -43,9 +62,11 @@ services:
       - zookeeper
     ports:
       - '9091:9091'
+      - '9991:9991'
       - '19091:19091'
     environment:
       - KAFKA_BROKER_ID=1
+      - KAFKA_JMX_PORT=9991
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-01:9091,PLAINTEXT_HOST://localhost:19091
       - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9091,PLAINTEXT_HOST://0.0.0.0:19091
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
@@ -53,6 +74,25 @@ services:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - ZOOKEEPER=zookeeper:2181
       - KAFKA_HEAP_OPTS=${CP_KAFKA_HEAP_OPTS}
+
+  kafka-02-jmx:
+    container_name: kafka-02-jmx
+    image: ${JMX_EXPORTER_IMG}:${JMX_EXPORTER_VER}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 128M
+    depends_on:
+      - kafka-02
+    ports:
+      - "5552:5556"
+    volumes:
+      - './etc/jmx_exporter/kafka-02-jmx.yml:/etc/jmx_exporter/config.yml'
+    command:
+      - "5556"
+      - "/etc/jmx_exporter/config.yml"
+
   kafka-02:
     container_name: kafka-02
     image: ${CP_KAFKA_IMG}:${CP_KAFKA_VER}
@@ -65,9 +105,11 @@ services:
       - zookeeper
     ports:
       - '9092:9092'
+      - '9992:9992'
       - '19092:19092'
     environment:
       - KAFKA_BROKER_ID=2
+      - KAFKA_JMX_PORT=9992
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-02:9092,PLAINTEXT_HOST://localhost:19092
       - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:19092
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
@@ -75,6 +117,25 @@ services:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - ZOOKEEPER=zookeeper:2181
       - KAFKA_HEAP_OPTS=${CP_KAFKA_HEAP_OPTS}
+
+  kafka-03-jmx:
+    container_name: kafka-03-jmx
+    image: ${JMX_EXPORTER_IMG}:${JMX_EXPORTER_VER}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 128M
+    depends_on:
+      - kafka-03
+    ports:
+      - "5553:5556"
+    volumes:
+      - './etc/jmx_exporter/kafka-03-jmx.yml:/etc/jmx_exporter/config.yml'
+    command:
+      - "5556"
+      - "/etc/jmx_exporter/config.yml"
+
   kafka-03:
     container_name: kafka-03
     image: ${CP_KAFKA_IMG}:${CP_KAFKA_VER}
@@ -87,9 +148,11 @@ services:
       - zookeeper
     ports:
       - '9093:9093'
+      - '9993:9993'
       - '19093:19093'
     environment:
       - KAFKA_BROKER_ID=3
+      - KAFKA_JMX_PORT=9993
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-03:9093,PLAINTEXT_HOST://localhost:19093
       - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9093,PLAINTEXT_HOST://0.0.0.0:19093
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
