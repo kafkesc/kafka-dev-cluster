@@ -10,6 +10,11 @@ services:
   zookeeper:
     container_name: zookeeper
     image: confluentinc/cp-zookeeper:${CP_ZOOKEEPER_VER}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.3'
+          memory: 128M
     ports:
       - '2181:2181'
       - '2888:2888'
@@ -29,6 +34,11 @@ services:
   kafka-01:
     container_name: kafka-01
     image: confluentinc/cp-kafka:${CP_KAFKA_VER}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.6'
+          memory: 512M
     depends_on:
       - zookeeper
     ports:
@@ -42,9 +52,15 @@ services:
       - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - ZOOKEEPER=zookeeper:2181
+      - KAFKA_HEAP_OPTS=${CP_KAFKA_HEAP_OPTS}
   kafka-02:
     container_name: kafka-02
     image: confluentinc/cp-kafka:${CP_KAFKA_VER}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.6'
+          memory: 512M
     depends_on:
       - zookeeper
     ports:
@@ -58,9 +74,15 @@ services:
       - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - ZOOKEEPER=zookeeper:2181
+      - KAFKA_HEAP_OPTS=${CP_KAFKA_HEAP_OPTS}
   kafka-03:
     container_name: kafka-03
     image: confluentinc/cp-kafka:${CP_KAFKA_VER}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.6'
+          memory: 512M
     depends_on:
       - zookeeper
     ports:
@@ -74,6 +96,7 @@ services:
       - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - ZOOKEEPER=zookeeper:2181
+      - KAFKA_HEAP_OPTS=${CP_KAFKA_HEAP_OPTS}
 
 networks:
   default:

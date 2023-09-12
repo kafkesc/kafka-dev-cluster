@@ -5,6 +5,11 @@ services:
   prod-01:
     container_name: prod-01
     image: kafkesc/ksunami:${KSUNAMI_VER}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 128M
     command:
       - --brokers=${BROKERS}
       - --topic=workload01
@@ -21,6 +26,11 @@ services:
   prod-02:
     container_name: prod-02
     image: kafkesc/ksunami:${KSUNAMI_VER}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 128M
     command:
       - --brokers=${BROKERS}
       - --topic=workload02
@@ -37,6 +47,11 @@ services:
   prod-03:
     container_name: prod-03
     image: kafkesc/ksunami:${KSUNAMI_VER}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 128M
     command:
       - --brokers=${BROKERS}
       - --topic=workload03
@@ -56,6 +71,11 @@ services:
   cons-01a:
     container_name: cons-01a
     image: confluentinc/cp-kafkacat:${CP_KCAT_VER}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 64M
     command:
       - kafkacat
       - -b
@@ -69,6 +89,11 @@ services:
   cons-01b:
     container_name: cons-01b
     image: confluentinc/cp-kafkacat:${CP_KCAT_VER}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 64M
     command:
       - kafkacat
       - -b
@@ -84,6 +109,11 @@ services:
   cons-02:
     container_name: cons-02
     image: confluentinc/cp-kafkacat:${CP_KCAT_VER}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 64M
     command:
       - kafkacat
       - -b
@@ -99,6 +129,11 @@ services:
   cons-03a:
     container_name: cons-03a
     image: confluentinc/cp-kafkacat:${CP_KCAT_VER}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 64M
     command:
       - kafkacat
       - -b
@@ -112,6 +147,11 @@ services:
   cons-03b:
     container_name: cons-03b
     image: confluentinc/cp-kafkacat:${CP_KCAT_VER}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 64M
     command:
       - kafkacat
       - -b
@@ -125,6 +165,11 @@ services:
   cons-03c:
     container_name: cons-03c
     image: confluentinc/cp-kafkacat:${CP_KCAT_VER}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 64M
     command:
       - kafkacat
       - -b

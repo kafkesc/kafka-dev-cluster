@@ -50,9 +50,12 @@ init:
 	$(DKR_CMD_INFRA) pull
 
 start:
+	@echo === Starting Kafka Infrastructure ===
 	$(DKR_CMD_INFRA) up --detach --timeout $(timeout)
+	@sleep 5
 
 stop: workload.stop
+	@echo === Stopping Kafka Infrastructure ===
 	$(DKR_CMD_INFRA) down --remove-orphans --timeout $(timeout)
 
 restart:
