@@ -7,6 +7,19 @@
 
 version: '3.8'
 services:
+  prometheus:
+    container_name: prometheus
+    image: ${PROMETHEUS_IMG}:${PROMETHEUS_VER}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./etc/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
   zookeeper:
     container_name: zookeeper
     image: ${CP_ZOOKEEPER_IMG}:${CP_ZOOKEEPER_VER}

@@ -1,0 +1,16 @@
+# Specs: https://prometheus.io/docs/prometheus/latest/configuration/configuration/
+
+global:
+  scrape_interval: 30s
+  evaluation_interval: 30s
+  scrape_timeout: 30s
+
+scrape_configs:
+  - job_name: 'kafka-brokers'
+    metrics_path: /metrics
+    scheme: http
+    static_configs:
+      - targets:
+        - kafka-01-jmx:5556
+        - kafka-02-jmx:5556
+        - kafka-03-jmx:5556
