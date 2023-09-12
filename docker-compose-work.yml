@@ -4,7 +4,7 @@ services:
   # ------------------------------------------------ PRODUCERS
   prod-01:
     container_name: prod-01
-    image: kafkesc/ksunami:${KSUNAMI_VER}
+    image: ${KSUNAMI_IMG}:${KSUNAMI_VER}
     deploy:
       resources:
         limits:
@@ -25,7 +25,7 @@ services:
       - -vv
   prod-02:
     container_name: prod-02
-    image: kafkesc/ksunami:${KSUNAMI_VER}
+    image: ${KSUNAMI_IMG}:${KSUNAMI_VER}
     deploy:
       resources:
         limits:
@@ -46,7 +46,7 @@ services:
       - -vv
   prod-03:
     container_name: prod-03
-    image: kafkesc/ksunami:${KSUNAMI_VER}
+    image: ${KSUNAMI_IMG}:${KSUNAMI_VER}
     deploy:
       resources:
         limits:
@@ -70,7 +70,7 @@ services:
   # Group "cons-01" contains 2 members: "cons-01_a" and "cons_01_b"
   cons-01a:
     container_name: cons-01a
-    image: confluentinc/cp-kafkacat:${CP_KCAT_VER}
+    image: ${CP_KCAT_IMG}:${CP_KCAT_VER}
     deploy:
       resources:
         limits:
@@ -88,7 +88,7 @@ services:
       - ${KCAT_REC_FMT}
   cons-01b:
     container_name: cons-01b
-    image: confluentinc/cp-kafkacat:${CP_KCAT_VER}
+    image: ${CP_KCAT_IMG}:${CP_KCAT_VER}
     deploy:
       resources:
         limits:
@@ -108,7 +108,7 @@ services:
   # Group "cons-02" contains only 1 member
   cons-02:
     container_name: cons-02
-    image: confluentinc/cp-kafkacat:${CP_KCAT_VER}
+    image: ${CP_KCAT_IMG}:${CP_KCAT_VER}
     deploy:
       resources:
         limits:
@@ -128,7 +128,7 @@ services:
   # Group "cons-03" contains 3 members: "cons-03_a", "cons-03_b" and "cons-03_c"
   cons-03a:
     container_name: cons-03a
-    image: confluentinc/cp-kafkacat:${CP_KCAT_VER}
+    image: ${CP_KCAT_IMG}:${CP_KCAT_VER}
     deploy:
       resources:
         limits:
@@ -146,7 +146,7 @@ services:
       - ${KCAT_REC_FMT}
   cons-03b:
     container_name: cons-03b
-    image: confluentinc/cp-kafkacat:${CP_KCAT_VER}
+    image: ${CP_KCAT_IMG}:${CP_KCAT_VER}
     deploy:
       resources:
         limits:
@@ -164,7 +164,7 @@ services:
       - ${KCAT_REC_FMT}
   cons-03c:
     container_name: cons-03c
-    image: confluentinc/cp-kafkacat:${CP_KCAT_VER}
+    image: ${CP_KCAT_IMG}:${CP_KCAT_VER}
     deploy:
       resources:
         limits:

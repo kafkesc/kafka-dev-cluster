@@ -9,7 +9,7 @@ version: '3.8'
 services:
   zookeeper:
     container_name: zookeeper
-    image: confluentinc/cp-zookeeper:${CP_ZOOKEEPER_VER}
+    image: ${CP_ZOOKEEPER_IMG}:${CP_ZOOKEEPER_VER}
     deploy:
       resources:
         limits:
@@ -33,7 +33,7 @@ services:
       - ZOOKEEPER_SERVERS=zookeeper:2888:3888
   kafka-01:
     container_name: kafka-01
-    image: confluentinc/cp-kafka:${CP_KAFKA_VER}
+    image: ${CP_KAFKA_IMG}:${CP_KAFKA_VER}
     deploy:
       resources:
         limits:
@@ -55,7 +55,7 @@ services:
       - KAFKA_HEAP_OPTS=${CP_KAFKA_HEAP_OPTS}
   kafka-02:
     container_name: kafka-02
-    image: confluentinc/cp-kafka:${CP_KAFKA_VER}
+    image: ${CP_KAFKA_IMG}:${CP_KAFKA_VER}
     deploy:
       resources:
         limits:
@@ -77,7 +77,7 @@ services:
       - KAFKA_HEAP_OPTS=${CP_KAFKA_HEAP_OPTS}
   kafka-03:
     container_name: kafka-03
-    image: confluentinc/cp-kafka:${CP_KAFKA_VER}
+    image: ${CP_KAFKA_IMG}:${CP_KAFKA_VER}
     deploy:
       resources:
         limits:
