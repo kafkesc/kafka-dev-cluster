@@ -52,7 +52,8 @@ init:
 start:
 	@echo === Starting Kafka Infrastructure ===
 	$(DKR_CMD_INFRA) up --detach --timeout $(timeout)
-	@sleep 5
+	@echo === Sleeping 30s to wait for things to settle... ===
+	@sleep 30
 
 stop: workload.stop
 	@echo === Stopping Kafka Infrastructure ===
