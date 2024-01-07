@@ -14,3 +14,10 @@ scrape_configs:
         - kafka-01-jmx:5556
         - kafka-02-jmx:5556
         - kafka-03-jmx:5556
+
+  - job_name: 'kommitted'
+    metrics_path: /metrics
+    scheme: http
+    static_configs:
+      - targets:
+        - host.docker.internal:6564
