@@ -36,7 +36,7 @@ services:
       - --topic=workload02
       - --partitioner=random
       - --min-sec=300
-      - --min=0
+      - --min=2
       - --max-sec=30
       - --max=10000
       - --up=spike-out
@@ -59,7 +59,7 @@ services:
       - --min-sec=60
       - --min=50
       - --max-sec=60
-      - --max=60
+      - --max=100
       - --up=ease-in-out
       - --down=ease-in-out
       - --key=alpha:30
